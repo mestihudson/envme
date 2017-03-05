@@ -62,14 +62,14 @@ __ungz() {
   output="$1"
   directory="$2"
 
-  tar xvzf "$output" --directory "$directory"
+  tar xzf "$output" --directory "$directory"
 }
 
 __unzip() {
   output="$1"
   directory="$2"
 
-  unzip "$output" -d "$directory"
+  unzip -qq "$output" -d "$directory"
 }
 
 __get_if_unexists() {

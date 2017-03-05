@@ -92,16 +92,34 @@ __install_maven() {
   url="http://ftp.unicamp.br/pub/apache/maven/maven-3/3.3.9/binaries/apache-maven-3.3.9-bin.tar.gz"
   filename="apache-maven-3.3.9-bin.tar.gz"
   name="apache-maven-3.3.9"
-  packs="/opt/dev/apps/packs/maven"
+  pack="maven"
+  packs="`__packs $pack`"
   links="/opt/dev/apps/links"
   version="3.3.9"
   output="/tmp/$filename"
   md5="`pwd`/MD5.$filename"
 
-  cd "$packs"
+  __go "$packs"
   __get_if_unexists "$url" "$filename" "$md5" && __ungz "$output" "$packs" && __version "$packs" "$name" "$version"
   __symlink "$packs/$version" "$links/maven3"
   __symlink "$links/maven3" "$links/maven"
+  __back
+}
+
+__go() {
+  directory="$1"
+
+  cd "$directory"
+}
+
+__packs() {
+  $pack="$1"
+  packs="/opt/dev/apps/packs/$pack"
+
+  echo "$packs"
+}
+
+__back() {
   cd - 2>&1 > /dev/null
 }
 
@@ -109,17 +127,18 @@ __install_jboss() {
   url="http://download.jboss.org/wildfly/10.1.0.Final/wildfly-10.1.0.Final.zip"
   filename="wildfly-10.1.0.Final.zip"
   name="wildfly-10.1.0.Final"
-  packs="/opt/dev/apps/packs/jboss"
+  pack="jboss"
+  packs="`__packs $pack`"
   links="/opt/dev/apps/links"
   version="$name"
   output="/tmp/$filename"
   md5="`pwd`/MD5.$filename"
 
-  cd "$packs"
+  __go "$packs"
   __get_if_unexists "$url" "$filename" "$md5" && __unzip "$output" "$packs"
   __symlink "$packs/$version" "$links/jboss-$version"
   __symlink "$links/jboss-$version" "$links/jboss"
-  cd -
+  __back
 }
 
 __copy_env_files() {

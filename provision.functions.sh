@@ -112,7 +112,7 @@ __install_jboss() {
   output="/tmp/$filename"
 
   cd "$packs"
-  __get_if_unexists "$url" "$filename" && __unzip "$output" "$packs" && __version "$packs" "$version"
+  __get_if_unexists "$url" "$filename" && __unzip "$output" "$packs"
   __symlink "$packs/$version" "$links/jboss-$version"
   __symlink "$links/jboss-$version" "$links/jboss"
   cd -

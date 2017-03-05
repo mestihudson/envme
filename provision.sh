@@ -1,7 +1,5 @@
 #!/bin/sh
-mkdir -p /opt/dev/{apps,bin,desktops,scripts,ws}
-mkdir -p /opt/dev/apps/{links,packs}
-mkdir -p /opt/dev/apps/packs/{eclipse,jboss,jdk,maven,node,rtc-client,tomcat}
+(mkdir -p "/opt/dev/{apps,bin,desktops,scripts,ws}" && mkdir -p "/opt/dev/apps/{links,packs}" && mkdir -p "/opt/dev/apps/packs/{eclipse,jboss,jdk,maven,node,rtc-client,tomcat}")
 
 (ln -s /usr/lib/jvm/java-8-openjdk-amd64 /opt/dev/apps/links/openjdk8 && ln -s /opt/dev/apps/links/openjdk8 /opt/dev/apps/links/jdk8 && ln -s /opt/dev/apps/links/jdk8 /opt/dev/apps/links/jdk)
 

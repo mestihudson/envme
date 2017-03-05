@@ -30,9 +30,10 @@ __mk_jdk_links() {
 
 __md5_of() {
   filename="$1"
+  md5="$2"
   output="/tmp/$filename"
 
-  test "`md5sum \"$filename\"|awk '{ print \$1 }'`" == "`cat \"MD5.$filename\"`" && echo "y" || echo "n"
+  test "`md5sum \"$output\"|awk '{ print \$1 }'`" == "`cat \"$md5\"`" && echo "y" || echo "n"
 }
 
 __get() {
@@ -74,9 +75,10 @@ __unzip() {
 __get_if_unexists() {
   url="$1"
   filename="$2"
+  md5="$3"
   output="/tmp/$filename"
 
-  (test ! -e "$output" || test "y" == "`__md5_of \"$filename\"`") && __get "$url" "$output"
+  (test ! -e "$output" || test "y" == "`__md5_of \"$filename\" \"$md5\"`") && __get "$url" "$output"
 }
 
 __symlink() {
@@ -94,9 +96,10 @@ __install_maven() {
   links="/opt/dev/apps/links"
   version="3.3.9"
   output="/tmp/$filename"
+  md5="`pwd`/MD5.$filename"
 
   cd "$packs"
-  __get_if_unexists "$url" "$filename" && __ungz "$output" "$packs" && __version "$packs" "$name" "$version"
+  __get_if_unexists "$url" "$filename" "$md5" && __ungz "$output" "$packs" && __version "$packs" "$name" "$version"
   __symlink "$packs/$version" "$links/maven3"
   __symlink "$links/maven3" "$links/maven"
   cd -

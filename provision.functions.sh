@@ -113,7 +113,7 @@ __go() {
 }
 
 __packs() {
-  $pack="$1"
+  pack="$1"
   packs="/opt/dev/apps/packs/$pack"
 
   echo "$packs"

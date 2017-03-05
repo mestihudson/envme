@@ -1,0 +1,4 @@
+source /opt/dev/env/export
+source /opt/dev/env/functions
+source /opt/dev/env/alias
+source /opt/dev/env/config

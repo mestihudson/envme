@@ -1,0 +1,111 @@
+__is_git_repo__() {
+  error=$(mktemp);
+  output=$(mktemp);
+  git status --short 2> $error 1> $output;
+  test ! -z "$(cat $error|grep 'Not a git repository')" && echo -n "n" || echo -n "y";
+  rm $error $output;
+}
+function __is_git_repo { __is_git_repo__; }
+
+__git_branch__() {
+  __bold;
+  __cyan;
+  __space;
+  echo -n "$(git branch --no-color 2> /dev/null|grep '* '|awk '{ print $2 }')";
+  __reset;
+}
+function __git_branch { __git_branch__; }
+
+__git_repo_status__() {
+  test "$(__is_git_repo)" == "y" && (
+    __git_branch;
+    __yellow;
+    test ! -z "$(git status --short 2> /dev/null)" && __no || __ok;
+    __reset;
+  )
+}
+function __git_repo_status { __git_repo_status__; }
+
+function __bold { tput bold; }
+function __color { tput setaf "$1"; }
+function __black { __color 0; }
+function __red { __color 1; }
+function __green { __color 2; }
+function __yellow { __color 3; }
+function __blue { __color 4; }
+function __magenta { __color 5; }
+function __cyan { __color 6; }
+function __white { __color 7; }
+function __reset { tput sgr0; }
+function __ok {
+  __green;
+  echo -n -e "\xE2\x9C\x94";
+  __reset;
+}
+function __no {
+  __red;
+  echo -n -e "\xE2\x9C\x98";
+  __reset;
+}
+function __user {
+  __bold;
+  __green;
+  echo -n "$USER";
+  __reset;
+}
+function __basename { echo -n "$(basename `pwd`)"; }
+function __home { echo -n "~"; }
+function __place {
+  __bold;
+  __blue;
+  test "$HOME" == "$(pwd)" && __home || __basename;
+  __reset;
+}
+function __date {
+  __bold;
+  __magenta;
+  date +%H:%M:%S;
+  __reset;
+}
+function __newline { echo ""; }
+function __dollar { echo -n "$"; }
+function __hammer_and_pick { __bold; __red; __character "\xE2\x9A\x92"; __reset; }
+function __hammer_and_sickle { __bold; __red; __character "\xE2\x98\xAD"; __reset; }
+function __latin_cross { character "\xE2\x9C\x9D"; }
+function __anchor { echo -n -e "\xE2\x9A\x93"; }
+function __character { echo -n -e "$1"; }
+function __colon {
+  __white;
+  echo -n ":";
+  __reset;
+}
+function __space { echo -n " "; }
+function __ps1 {
+  __newline;
+  __user;
+  __space;
+  __place;
+  __git_repo_status;
+  __space;
+  __date;
+  __hammer_and_sickle;
+  __space;
+}
+__find_java_class() {
+  has_dot=`echo "$1"|grep '\.'`;
+  criteria=`test ! -z "$has_dot" && (echo "$has_dot"|sed 's=\.=/=g') || echo "$1"`
+  for i in $(find ~/.m2 -name *.jar); do
+    class=`jar tvf "$i"|grep ".class"|awk '{ print $8 }'`;
+    match=`echo "$class"|grep "$criteria"`;
+    test ! -z "$match" && (
+      __bold;
+      __yellow;
+      echo -n "$match";
+      __white;
+      echo -n " on ";
+      __red;
+      echo "$i";
+      __reset;
+    );
+  done
+}

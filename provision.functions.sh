@@ -40,7 +40,7 @@ __get() {
   url="$1"
   output="$2"
 
-  wget "$url" -O "$output"
+  wget -q "$url" -O "$output"
 }
 
 __version() {
@@ -102,7 +102,7 @@ __install_maven() {
   __get_if_unexists "$url" "$filename" "$md5" && __ungz "$output" "$packs" && __version "$packs" "$name" "$version"
   __symlink "$packs/$version" "$links/maven3"
   __symlink "$links/maven3" "$links/maven"
-  cd -
+  cd - 2>&1 > /dev/null
 }
 
 __install_jboss() {

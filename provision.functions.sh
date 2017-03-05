@@ -78,7 +78,7 @@ __get_if_unexists() {
   md5="$3"
   output="/tmp/$filename"
 
-  (test ! -e "$output" || test "`__md5_of \"$filename\" \"$md5\"`" == "n") && __get "$url" "$output"
+  (test ! -e "$output" || test "`__md5_of \"$filename\" \"$md5\"`" == "n") && __get "$url" "$output" || echo "$output já existe!"
 }
 
 __symlink() {

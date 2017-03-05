@@ -39,11 +39,16 @@ __install_maven() {
 }
 
 __install_jboss() {
-  cd /opt/dev/apps/packs/jboss
-  wget http://download.jboss.org/wildfly/10.1.0.Final/wildfly-10.1.0.Final.zip -O wildfly-10.1.0.Final.zip
-  ln -s /opt/dev/apps/packs/jboss/wildfly-10.1.0.Final /opt/dev/apps/links/wildfly-10.1.0.Final
-  ln -s /opt/dev/apps/links/wildfly-10.1.0.Final /opt/dev/apps/links/jboss
-  rm -f wildfly-10.1.0.Final.zip
+  url="http://download.jboss.org/wildfly/10.1.0.Final/wildfly-10.1.0.Final.zip"
+  output="/tmp/wildfly-10.1.0.Final.zip"
+  pack_dir="/opt/dev/apps/packs/jboss"
+  link_dir="/opt/dev/apps/link"
+  pack_version_dir="wildfly-10.1.0.Final"
+
+  cd "$pack_dir"
+  test ! -e "$output" && && wget "$url" -O "$output" && unzip "$output" && rm -f "$output"
+  ln -s "$pack_dir/$pack_version_dir" "$link_dir/wildfly-10.1.0.Final"
+  ln -s "$link_dir/wildfly-10.1.0.Final" "$link_dir/jboss"
   cd -
 }
 

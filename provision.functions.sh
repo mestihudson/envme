@@ -1,23 +1,27 @@
 #!/bin/bash
 __mkdirs() {
-  mkdir -p /opt/dev
-  mkdir -p /opt/dev/apps
+  mkdir -p /opt/dev/{apps,bin,desktops,scripts,ws}
+  mkdir -p /opt/dev/apps/{packs,links}
+  mkdir -p /opt/dev/apps/packs/{eclipse,jboss,jdk,maven,node,rtc-client,tomcat}
 
-  mkdir -p /opt/dev/bin
-  mkdir -p /opt/dev/desktops
-  mkdir -p /opt/dev/scripts
-  mkdir -p /opt/dev/ws
-
-  mkdir -p /opt/dev/apps/links
-  mkdir -p /opt/dev/apps/packs
-
-  mkdir -p /opt/dev/apps/packs/eclipse
-  mkdir -p /opt/dev/apps/packs/jboss
-  mkdir -p /opt/dev/apps/packs/jdk
-  mkdir -p /opt/dev/apps/packs/maven
-  mkdir -p /opt/dev/apps/packs/node
-  mkdir -p /opt/dev/apps/packs/rtc-client
-  mkdir -p /opt/dev/apps/packs/tomcat
+  # mkdir -p /opt/dev
+  # mkdir -p /opt/dev/apps
+  #
+  # mkdir -p /opt/dev/bin
+  # mkdir -p /opt/dev/desktops
+  # mkdir -p /opt/dev/scripts
+  # mkdir -p /opt/dev/ws
+  #
+  # mkdir -p /opt/dev/apps/links
+  # mkdir -p /opt/dev/apps/packs
+  #
+  # mkdir -p /opt/dev/apps/packs/eclipse
+  # mkdir -p /opt/dev/apps/packs/jboss
+  # mkdir -p /opt/dev/apps/packs/jdk
+  # mkdir -p /opt/dev/apps/packs/maven
+  # mkdir -p /opt/dev/apps/packs/node
+  # mkdir -p /opt/dev/apps/packs/rtc-client
+  # mkdir -p /opt/dev/apps/packs/tomcat
 
   tree /opt
 }

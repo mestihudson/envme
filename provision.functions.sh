@@ -30,8 +30,10 @@ __mk_jdk_links() {
 
 __install_maven() {
   cd /opt/dev/apps/packs/maven
-  wget http://ftp.unicamp.br/pub/apache/maven/maven-3/3.3.9/binaries/apache-maven-3.3.9-bin.tar.gz | tar xvz
+  wget http://ftp.unicamp.br/pub/apache/maven/maven-3/3.3.9/binaries/apache-maven-3.3.9-bin.tar.gz -O apache-maven-3.3.9-bin.tar.gz
+  tar xvzf apache-maven-3.3.9-bin.tar.gz
   mv /opt/dev/apps/packs/maven/apache-maven-3.3.9 /opt/dev/apps/packs/maven/3.3.9
+  rm -f apache-maven-3.3.9-bin.tar.gz
   ln -s /opt/dev/apps/packs/maven/3.3.9 /opt/apps/links/maven
   cd -
 }

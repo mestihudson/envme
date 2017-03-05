@@ -28,33 +28,93 @@ __mk_jdk_links() {
   ln -s /opt/dev/apps/links/jdk8 /opt/dev/apps/links/jdk
 }
 
+__md5_of() {
+  filename="$1"
+  output="/tmp/$filename"
+
+  test "`md5sum '$filename'|awk '{ print \$1 }'`" == "`cat 'MD5.$filename'`" && echo "y" || echo "n"
+}
+
+__get() {
+  url="$1"
+  output="$2"
+
+  wget "$url" -O "$output"
+}
+
+__version() {
+  packs="$1"
+  name="$2"
+  version="$3"
+
+  __rename "$packs/$name" "$packs/$version"
+}
+
+__rename() {
+  old="$1"
+  new="$2"
+
+  mv "$old" "$new"
+}
+
+__ungz() {
+  output="$1"
+  directory="$2"
+
+  tar xvzf "$output" --directory "$directory"
+}
+
+__unzip() {
+  output="$1"
+  directory="$2"
+
+  unzip "$output" -d "$directory"
+}
+
+__get_if_unexists() {
+  url="$1"
+  filename="$2"
+  output="/tmp/$filename"
+
+  (test ! -e "$output" || test "y" == "`__md5_of '$filename'`") && __get "$url" "$output"
+}
+
+__symlink() {
+  source="$1"
+  target="$2"
+
+  ln -s "$source" "$target"
+}
+
 __install_maven() {
   url="http://ftp.unicamp.br/pub/apache/maven/maven-3/3.3.9/binaries/apache-maven-3.3.9-bin.tar.gz"
   filename="apache-maven-3.3.9-bin.tar.gz"
+  name="apache-maven-3.3.9"
+  packs="/opt/dev/apps/packs/maven"
+  links="/opt/dev/apps/links"
+  version="3.3.9"
   output="/tmp/$filename"
-  pack_dir="/opt/dev/apps/packs/maven"
-  link_dir="/opt/dev/apps/links"
-  pack_version_dir="3.3.9"
 
-  cd "$pack_dir"
-  test ! -e "$output" && wget "$url" -O "$output" && tar xvzf "$output" && md5sum "$output" > "MD5.$filename" && mv "$pack_dir/apache-maven-$pack_version_dir" "$pack_dir/$pack_version_dir" && rm -f apache-maven-3.3.9-bin.tar.gz
-  ln -s "$pack_dir/$pack_version_dir" "$link_dir/maven3"
-  ln -s "$link_dir/maven3" "$link_dir/maven"
+  cd "$packs"
+  __get_if_unexists "$url" "$filename" && __ungz "$output" "$packs" && __version "$packs" "$name" "$version"
+  __symlink "$packs/$version" "$links/maven3"
+  __symlink "$links/maven3" "$links/maven"
   cd -
 }
 
 __install_jboss() {
   url="http://download.jboss.org/wildfly/10.1.0.Final/wildfly-10.1.0.Final.zip"
   filename="wildfly-10.1.0.Final.zip"
+  name="wildfly-10.1.0.Final"
+  packs="/opt/dev/apps/packs/jboss"
+  links="/opt/dev/apps/links"
+  version="$name"
   output="/tmp/$filename"
-  pack_dir="/opt/dev/apps/packs/jboss"
-  link_dir="/opt/dev/apps/links"
-  pack_version_dir="wildfly-10.1.0.Final"
 
-  cd "$pack_dir"
-  test ! -e "$output" && wget "$url" -O "$output" && md5sum "$output" > "MD5.$filename" && unzip "$output" && rm -f "$output"
-  ln -s "$pack_dir/$pack_version_dir" "$link_dir/wildfly-10.1.0.Final"
-  ln -s "$link_dir/wildfly-10.1.0.Final" "$link_dir/jboss"
+  cd "$packs"
+  __get_if_unexists "$url" "$filename" && __unzip "$output" "$packs" && __version "$packs" "$version"
+  __symlink "$packs/$version" "$links/jboss-$version"
+  __symlink "$links/jboss-$version" "$links/jboss"
   cd -
 }
 

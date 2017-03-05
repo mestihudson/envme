@@ -37,7 +37,7 @@ alias apps-links='cd /opt/dev/apps/links'
 
 alias docker-xfce='sudo docker run -ti --rm --net=host -e DISPLAY=$DISPLAY -v ~/.Xauthority:/root/.Xauthority -v /tmp/.X11-unix:/tmp/.X11-unix ianblenke/xfce'
 alias jboss-start='standalone.sh -b 0.0.0.0'
-alias jboss-start-debug='standalone.sh -b 0.0.0.0 --debug'
+alias jboss-start-debug='jboss-start --debug'
 alias pdweb-make-link-deploy='ln -sf /opt/dev/apps/links/jboss/standalone/deployments .deploy'
 alias ]='exit'
 alias ,='cd /tmp'

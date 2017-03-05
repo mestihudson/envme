@@ -32,7 +32,7 @@ __md5_of() {
   filename="$1"
   output="/tmp/$filename"
 
-  test "`md5sum '$filename'|awk '{ print \$1 }'`" == "`cat 'MD5.$filename'`" && echo "y" || echo "n"
+  test "`md5sum \"$filename\"|awk '{ print \$1 }'`" == "`cat \"MD5.$filename\"`" && echo "y" || echo "n"
 }
 
 __get() {
@@ -76,7 +76,7 @@ __get_if_unexists() {
   filename="$2"
   output="/tmp/$filename"
 
-  (test ! -e "$output" || test "y" == "`__md5_of '$filename'`") && __get "$url" "$output"
+  (test ! -e "$output" || test "y" == "`__md5_of \"$filename\"`") && __get "$url" "$output"
 }
 
 __symlink() {

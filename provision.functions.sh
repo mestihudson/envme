@@ -33,8 +33,8 @@ __install_maven() {
   wget http://ftp.unicamp.br/pub/apache/maven/maven-3/3.3.9/binaries/apache-maven-3.3.9-bin.tar.gz -O apache-maven-3.3.9-bin.tar.gz
   tar xvzf apache-maven-3.3.9-bin.tar.gz
   mv /opt/dev/apps/packs/maven/apache-maven-3.3.9 /opt/dev/apps/packs/maven/3.3.9
+  ln -s /opt/dev/apps/packs/maven/3.3.9 /opt/dev/apps/links/maven
   rm -f apache-maven-3.3.9-bin.tar.gz
-  ln -s /opt/dev/apps/packs/maven/3.3.9 /opt/apps/links/maven
   cd -
 }
 

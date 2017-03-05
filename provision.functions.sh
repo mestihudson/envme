@@ -29,24 +29,30 @@ __mk_jdk_links() {
 }
 
 __install_maven() {
-  cd /opt/dev/apps/packs/maven
-  wget http://ftp.unicamp.br/pub/apache/maven/maven-3/3.3.9/binaries/apache-maven-3.3.9-bin.tar.gz -O apache-maven-3.3.9-bin.tar.gz
-  tar xvzf apache-maven-3.3.9-bin.tar.gz
-  mv /opt/dev/apps/packs/maven/apache-maven-3.3.9 /opt/dev/apps/packs/maven/3.3.9
-  ln -s /opt/dev/apps/packs/maven/3.3.9 /opt/dev/apps/links/maven
-  rm -f apache-maven-3.3.9-bin.tar.gz
+  url="http://ftp.unicamp.br/pub/apache/maven/maven-3/3.3.9/binaries/apache-maven-3.3.9-bin.tar.gz"
+  filename="apache-maven-3.3.9-bin.tar.gz"
+  output="/tmp/$filename"
+  pack_dir="/opt/dev/apps/packs/maven"
+  link_dir="/opt/dev/apps/links"
+  pack_version_dir="3.3.9"
+
+  cd "$pack_dir"
+  test ! -e "$output" && wget "$url" -O "$output" && tar xvzf "$output" && md5sum "$output" > "MD5.$filename" && mv "$pack_dir/apache-maven-$pack_version_dir" "$pack_dir/$pack_version_dir" && rm -f apache-maven-3.3.9-bin.tar.gz
+  ln -s "$pack_dir/$pack_version_dir" "$link_dir/maven3"
+  ln -s "$link_dir/maven3" "$link_dir/maven"
   cd -
 }
 
 __install_jboss() {
   url="http://download.jboss.org/wildfly/10.1.0.Final/wildfly-10.1.0.Final.zip"
-  output="/tmp/wildfly-10.1.0.Final.zip"
+  filename="wildfly-10.1.0.Final.zip"
+  output="/tmp/$filename"
   pack_dir="/opt/dev/apps/packs/jboss"
-  link_dir="/opt/dev/apps/link"
+  link_dir="/opt/dev/apps/links"
   pack_version_dir="wildfly-10.1.0.Final"
 
   cd "$pack_dir"
-  test ! -e "$output" && && wget "$url" -O "$output" && unzip "$output" && rm -f "$output"
+  test ! -e "$output" && wget "$url" -O "$output" && md5sum "$output" > "MD5.$filename" && unzip "$output" && rm -f "$output"
   ln -s "$pack_dir/$pack_version_dir" "$link_dir/wildfly-10.1.0.Final"
   ln -s "$link_dir/wildfly-10.1.0.Final" "$link_dir/jboss"
   cd -

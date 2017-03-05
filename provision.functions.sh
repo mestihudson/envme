@@ -113,9 +113,10 @@ __install_jboss() {
   links="/opt/dev/apps/links"
   version="$name"
   output="/tmp/$filename"
+  md5="`pwd`/MD5.$filename"
 
   cd "$packs"
-  __get_if_unexists "$url" "$filename" && __unzip "$output" "$packs"
+  __get_if_unexists "$url" "$filename" "$md5" && __unzip "$output" "$packs"
   __symlink "$packs/$version" "$links/jboss-$version"
   __symlink "$links/jboss-$version" "$links/jboss"
   cd -

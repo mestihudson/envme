@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 __mkdirs() {
   mkdir -p /opt/dev
   mkdir -p /opt/dev/apps

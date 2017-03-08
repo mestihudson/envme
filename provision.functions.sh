@@ -158,5 +158,5 @@ __bind_env_all_to_bashrc() {
   all="source /opt/dev/env/all"
   bashrc="$user/.bashrc"
 
-  test -z "`grep $all $bashrc`" && echo "source $all" >> "$bashrc"
+  test -z "`cat $bashrc|grep \'$all\'`" && echo "$all" >> "$bashrc"
 }

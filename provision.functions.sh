@@ -155,8 +155,9 @@ __copy_env_files() {
 
 __bind_env_all_to_bashrc() {
   user="$1"
-  all="/opt/dev/env/all"
+  all="source /opt/dev/env/all"
   bashrc="$user/.bashrc"
 
-  test -z "$(grep \"source\ $all\" \"$bashrc\")" && echo "source $all" >> "$bashrc"
+  ok=$(grep "$all" "$bashrc")
+  test -z "$ok" && (echo "$all" >> "$bashrc")
 }

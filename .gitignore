@@ -2,3 +2,4 @@
 .vagrant
 .pdweb
 .liquibase-samples
+.frontend

@@ -48,6 +48,13 @@ __ungz() {
   tar xzf "$output" --directory "$directory"
 }
 
+__unxz() {
+  output="$1"
+  directory="$2"
+
+  tar xJf "$output" --directory "$directory"
+}
+
 __unzip() {
   output="$1"
   directory="$2"
@@ -121,6 +128,24 @@ __install_jboss() {
   __get_if_unexists "$url" "$filename" "$md5" && __unzip "$output" "$packs"
   __symlink "$packs/$version" "$links/jboss-$version"
   __symlink "$links/jboss-$version" "$links/jboss"
+  __back
+}
+
+__install_node() {
+  url="https://nodejs.org/dist/v7.7.1/node-v7.7.1-linux-x64.tar.xz"
+  filename="node-v7.7.1-linux-x64.tar.xz"
+  name="node-v7.7.1-linux-x64"
+  pack="node"
+  packs="`__packs $pack`"
+  links="/opt/dev/apps/links"
+  version="$name"
+  output="/tmp/$filename"
+  md5="`pwd`/MD5.$filename"
+
+  __go "$packs"
+  __get_if_unexists "$url" "$filename" "$md5" && __unxz "$output" "$packs"
+  __symlink "$packs/$version" "$links/node-$version"
+  __symlink "$links/node-$version" "$links/node"
   __back
 }
 
